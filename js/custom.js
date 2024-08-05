@@ -17,19 +17,13 @@ function myMap() {
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
-
-
-
-
-
-
 var list = [
 	{"desc":"rice", "amount":"1", "value":"5.40"},
 	{"desc":"beer", "amount":"12", "value":"1.99"},
 	{"desc":"meat", "amount":"1", "value":"15.00"}
 ];
 
-
+/*
 //somando total
 function getTotal(list){
 	var total = 0;
@@ -195,3 +189,341 @@ function initListStorage(){
 }
 
 initListStorage();
+
+*/
+
+// Função para adicionar ao carrinho
+function addToCart(productId, productPrice, productName, productImage) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    // Verificar se o produto já existe no carrinho
+    const productIndex = carrinho.findIndex(item => item.productId === productId);
+
+    if (productIndex !== -1) {
+		return
+		// Atualizar a quantidade
+        carrinho[productIndex].productQuantity++;
+    } else {
+        // Adicionar o produto ao carrinho
+        const product = {
+            productId,
+            productPrice,
+            productName,
+            productQuantity: 1,
+            productImage
+        };
+        carrinho.push(product);
+    }
+
+    // Atualizar o localStorage
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    // Atualizar a exibição do carrinho
+    updateCartCount();
+    updateCartDisplay();
+    //updateSidebar();
+    updateButtonState(productId); // Atualizar o botão após adicionar
+}
+
+function addToCart(productId) {
+    const { productPrice, productName, productImage } = getButtonData(productId);
+    
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    
+    const productIndex = carrinho.findIndex(item => item.productId === productId);
+
+    if (productIndex !== -1) {
+		return
+        // Atualizar a quantidade
+        carrinho[productIndex].productQuantity++;
+    } else {
+        // Adicionar o produto ao carrinho
+        const product = {
+            productId,
+            productPrice,
+            productName,
+            productQuantity: 1,
+            productImage
+        };
+        carrinho.push(product);
+    }
+
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    
+    updateCartCount();
+    updateCartDisplay();
+	updateButtonState(productId, carrinho);
+}
+
+let totalPrice = 0; 
+
+function updateCartDisplay() {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    totalPrice = 0;
+
+    // Se o carrinho estiver vazio, limpar o conteúdo da tabela e sair
+    if (carrinho.length === 0) {
+        document.getElementById('cartList').innerHTML = '<tr><td colspan="4">Carrinho vazio</td></tr>';
+        updateCartCount();
+        updateSidebar(); // Atualiza a sidebar para refletir carrinho vazio
+        return;
+    }
+
+    const cartList = document.getElementById('cartList');
+    cartList.innerHTML = '';
+
+    // Criar um mapa para consolidar itens por productId
+    let itemMap = new Map();
+
+    carrinho.forEach(item => {
+        if (itemMap.has(item.productId)) {
+			return
+            //itemMap.get(item.productId).productQuantity += item.productQuantity;
+        } else {
+            itemMap.set(item.productId, { ...item });
+        }
+    });
+
+    // Iterar sobre os itens consolidados
+    itemMap.forEach(item => {
+        const row = document.createElement('tr');
+        row.classList.add('border');
+
+		const productImageCell = document.createElement('td');
+        const productImage = document.createElement('img');
+        productImage.src = item.productImage; // Adicione o URL da imagem do produto
+        productImage.alt = item.productName;
+        productImage.style.width = '50px'; // Ajuste o tamanho da imagem conforme necessário
+        productImage.style.height = '50px'; // Ajuste o tamanho da imagem conforme necessário
+        productImageCell.appendChild(productImage);
+        row.appendChild(productImageCell);
+
+        const productNameCell = document.createElement('td');
+        productNameCell.textContent = item.productName;
+        row.appendChild(productNameCell);
+
+        const productPriceCell = document.createElement('td');
+        productPriceCell.textContent = `R$ ${item.productPrice.toFixed(2)}`;
+        row.appendChild(productPriceCell);
+
+        const productQuantityCell = document.createElement('td');
+
+		/*
+        const decreaseButton = document.createElement('button');
+        decreaseButton.textContent = '-';
+        decreaseButton.classList.add('btn', 'btn-sm', 'btn-secondary');
+        decreaseButton.addEventListener('click', () => updateQuantity(item.productId, -1));
+        productQuantityCell.appendChild(decreaseButton);
+		*/
+
+        const quantitySpan = document.createElement('span');
+        quantitySpan.textContent = item.productQuantity;
+        quantitySpan.style.margin = '0 10px';
+        productQuantityCell.appendChild(quantitySpan);
+
+		/*
+        const increaseButton = document.createElement('button');
+        increaseButton.textContent = '+';
+        increaseButton.classList.add('btn', 'btn-sm', 'btn-secondary');
+        increaseButton.addEventListener('click', () => updateQuantity(item.productId, 1));
+        productQuantityCell.appendChild(increaseButton);
+		*/
+
+        row.appendChild(productQuantityCell);
+
+        const removeButtonCell = document.createElement('td');
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('btn', 'btn-sm', 'btn-danger');
+        removeButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        removeButton.addEventListener('click', () => removeItem(item.productId));
+        removeButtonCell.appendChild(removeButton);
+        row.appendChild(removeButtonCell);
+
+        cartList.appendChild(row);
+        totalPrice += item.productPrice * item.productQuantity;
+    });
+
+    // Criar a linha de total
+    const totalRow = document.createElement('tr');
+    const totalCell1 = document.createElement('td');
+    totalCell1.textContent = 'Valor total';
+    totalCell1.colSpan = 2;
+    totalRow.appendChild(totalCell1);
+
+    const totalCell2 = document.createElement('td');
+    const totalDisplay = document.createElement('span');
+    totalDisplay.id = 'totalDisplay';
+    totalDisplay.textContent = `R$ ${totalPrice.toFixed(2)}`;
+    totalCell2.appendChild(totalDisplay);
+    totalRow.appendChild(totalCell2);
+
+    const totalCell3 = document.createElement('td');
+    const couponInput = document.createElement('input');
+    couponInput.placeholder = 'Cupom de Desconto';
+    couponInput.type = 'text';
+    const applyButton = document.createElement('button');
+    applyButton.classList.add('btn', 'btn-sm', 'btn-success');
+    applyButton.textContent = 'Aplicar';
+    applyButton.addEventListener('click', applyCoupon);
+    totalCell3.appendChild(couponInput);
+    totalCell3.appendChild(applyButton);
+    totalRow.appendChild(totalCell3);
+
+    cartList.appendChild(totalRow);
+
+    updateCartCount();
+    //updateSidebar(); // Atualiza a sidebar com os itens do carrinho
+}
+
+// Função para atualizar a sidebar
+function updateSidebar() {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    const cartItems = document.getElementById('cartItems');
+    cartItems.innerHTML = '';
+
+    if (carrinho.length === 0) {
+        cartItems.innerHTML = '<p>Seu carrinho está vazio.</p>';
+        document.getElementById('cartTotal').textContent = 'R$0,00';
+        return;
+    }
+
+    // Criar um mapa para consolidar itens por productId
+    let itemMap = new Map();
+
+    carrinho.forEach(item => {
+        if (itemMap.has(item.productId)) {
+            itemMap.get(item.productId).productQuantity += item.productQuantity;
+        } else {
+            itemMap.set(item.productId, { ...item });
+        }
+    });
+
+    // Iterar sobre os itens consolidados
+    itemMap.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('sidebar-item');
+
+        const productName = document.createElement('p');
+        productName.textContent = `${item.productName} (${item.productQuantity})`;
+        itemDiv.appendChild(productName);
+
+        const productPrice = document.createElement('p');
+        productPrice.textContent = `R$ ${(item.productPrice * item.productQuantity).toFixed(2)}`;
+        itemDiv.appendChild(productPrice);
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remover';
+        removeButton.classList.add('btn', 'btn-sm', 'btn-danger');
+        removeButton.addEventListener('click', () => {
+            removeItem(item.productId);
+            updateSidebar(); // Atualiza a sidebar após remoção
+        });
+        itemDiv.appendChild(removeButton);
+
+        cartItems.appendChild(itemDiv);
+    });
+
+    document.getElementById('cartTotal').textContent = `R$ ${totalPrice.toFixed(2)}`;
+}
+  
+function applyCoupon() {
+    const couponInput = document.querySelector('input[placeholder="Cupom de Desconto"]');
+    const couponCode = couponInput.value;
+    const totalDisplay = document.getElementById('totalDisplay');
+  
+    // Lógica para verificar o cupom (substitua por sua lógica de validação)
+	if (couponCode === 'KANSAS10%') {
+		const discount = 0.1; // 10% de desconto
+		const newTotal = totalPrice * (1 - discount);
+		totalDisplay.textContent = `R$ ${newTotal.toFixed(2)}`;
+	} else if (couponCode === 'KANSAS10') {
+		const discount = 10;
+		const newTotal = totalPrice - discount;
+		totalDisplay.textContent = `R$ ${newTotal.toFixed(2)}`;
+	} else {
+		alert('Cupom inválido');
+	}
+}
+
+function updateQuantity(productId, change) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho = carrinho.map(item => {
+        if (item.productId === productId) {
+            item.productQuantity = Math.max(1, item.productQuantity + change);
+        }
+        return item;
+    });
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    updateCartDisplay();
+	//updateSidebar();
+}
+
+function removeItem(productId) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho = carrinho.filter(item => item.productId !== productId);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    updateCartCount();
+    updateCartDisplay();
+    //updateSidebar();
+    updateButtonState(productId); // Atualizar o botão após remover
+}
+
+// Função para atualizar o estado do botão
+function updateButtonState(productId) {
+    const button = document.getElementById(`button-${productId}`);
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const productIndex = carrinho.findIndex(item => item.productId === productId);
+
+    if (productIndex !== -1) {
+        // Produto está no carrinho, mostrar "Remover do Carrinho"
+        button.textContent = 'Remover do Carrinho';
+        button.onclick = () => removeItem(productId);
+    } else {
+        // Produto não está no carrinho, mostrar "Adicionar ao Carrinho"
+        button.textContent = 'Adicionar ao Carrinho';
+        button.onclick = () => addToCart(productId);
+    }
+}
+
+function getButtonData(productId) {
+    const button = document.getElementById(`button-${productId}`);
+    const productPrice = parseFloat(button.dataset.price);
+    const productName = button.dataset.name;
+    const productImage = button.dataset.image;
+
+    return { productPrice, productName, productImage };
+}
+
+function updateCartCount() {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    let itemCount = carrinho.reduce((total, item) => total + item.productQuantity, 0);
+    document.getElementById('cart-count').textContent = itemCount;
+}
+
+  // Function to open the sidebar
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+  }
+
+  // Function to close the sidebar
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function initializeButtons() {
+    const buttons = document.querySelectorAll('[id^="button-"]');
+
+    buttons.forEach(button => {
+        const productId = button.id.split('-')[1];
+        updateButtonState(productId)
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	initializeButtons();
+	updateCartCount();
+	updateCartDisplay();
+});

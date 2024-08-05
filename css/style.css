@@ -29,6 +29,8 @@ body {
   padding-bottom: 90px;
 }
 
+
+
 .heading_container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -993,4 +995,155 @@ a:focus {
     height: 950px !important;
   }
 }
+
+.carrinho th, .carrinho td {
+    color: white;
+  }
+
+  #container {
+    margin: 20px;
+}
+
+.footer_contact {
+  color: white;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  padding: 15px;
+  background: #f1f1f1;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-content {
+  padding: 15px;
+  overflow-y: auto;
+  max-height: calc(100% - 100px);
+}
+
+.sidebar-footer {
+  padding: 15px;
+  background: #f1f1f1;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-footer .btn1 {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.open-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  display: inline-flex; /* Alinha o checkbox e o texto em linha */
+  align-items: center; /* Alinha verticalmente o checkbox e o texto */
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 8px; /* Espaçamento entre o checkbox e o texto */
+}
+
+.checkbox-label span {
+  white-space: nowrap; /* Evita a quebra de linha do texto */
+}
+
+/* O modal está oculto por padrão */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+/* O modal está oculto por padrão */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background-color: #363636; /* Fundo branco para o conteúdo */
+  margin: 10% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px; /* Adiciona bordas arredondadas */
+  width: 80%; 
+  max-width: 600px;
+}
+
+/* O botão de fechar */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 /*# sourceMappingURL=style.css.map */

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt">
-  <script src="west/page-script.js" id="bw-fido2-page-script"></script>
   <head>
     <!-- Basic -->
     <meta charset="utf-8" />
@@ -42,15 +41,13 @@
 
   <body>
 
-    <div class="hero_area">
+    <div class="hero_area_cart">
       <!-- header section strats -->
       <header class="header_section">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="index.html">
-              <span>
-                KANSAS RP
-              </span>
+            <a href="index.html">
+              <img src="images/kansas_logo.png" class="footer-logo" width="100" height="50">
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,569 +56,315 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav categories animate__animated animate__slideInLeft">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Início <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="about.html"> Sobre</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">VIP Colaborador</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Gold Colaborador</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Fazendas</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Extras</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Peds</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Imóveis</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="product.html">Upgrade</a>
-                </li>
+                  <li class="nav-item active">
+                      <a class="nav-link" href="index.html">Início <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="about.html">Sobre</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">VIP Colaborador</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Gold Colaborador</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Fazendas</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Extras</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Peds</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Imóveis</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="product.html">Upgrade</a>
+                  </li>
               </ul>
               <div class="user_optio_box">
-                <div class="social_box">
-                  <a href="">
-                    <img src="images/fb.png" alt="">
+                  <div class="social_box">
+                      <a href="teste.html">
+                          <img src="images/fb.png" alt="">
+                      </a>
+                      <a href="">
+                          <img src="images/twitter.png" alt="">
+                      </a>
+                      <a href="https://discord.gg/dtbq78SPpn" target="_blank">
+                          <img src="images/discord.png" alt="" width="30" height="20">
+                      </a>
+                      <a href="">
+                          <img src="images/youtube.png" alt="">
+                      </a>
+                  </div>
+                  <a href="checkout.html" class="cart-link">
+                      <img src="images/cart_ic.png" width="28" height="28">
+                      <span id="cart-count" class="badge badge-pill badge-danger">0</span>
                   </a>
-                  <a href="">
-                    <img src="images/twitter.png" alt="">
-                  </a>
-                  <a href="https://discord.gg/dtbq78SPpn" target=”_blank”>
-                    <img src="images/discord.png" alt="" width="30" height="20">
-                  </a>
-                  <a href="">
-                    <img src="images/youtube.png" alt="">
-                  </a>
-                </div>
-                <a href="">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                </a>
-                <a href="checkout.html">
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </a>
               </div>
             </div>
           </nav>
         </div>
       </header>
+      <!-- end header section -->
+    </div>
 
-      <div class="container pb-5">
-        <div class="table-responsive">
-          <table class="border">
-            <tbody>
-              <tr class="border">
-                <th>Produto</th> 
-                <th>Valor</th> 
-                <th>Ações</th>
-              </tr> 
-              <tr class="border">
-                <td>PEDS</td> 
-                <td>R$ 40.00</td> 
-                <td>
-                  <button href="#" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </td>
-              </tr> 
+    <div id="container">
+      <div id="cart">
+        <h1>Itens no Carrinho</h1>
+        <div class="container">
+          <table class="table carrinho">
+            <thead>
               <tr>
-                <td>
-                  <strong>Valor total</strong>
-                </td> 
-                <td>
-                  <strong>R$ 40.00</strong>
-                </td> 
-                <td>
-                  <div class="form-group inline">
-                    <input placeholder="Cupom de Desconto" type="text" class=""> 
-                    <button class="btn btn-sm btn-success">Aplicar</button>
-                  </div>
-                </td>
+                <th></th>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Remover</th>
               </tr>
+            </thead>
+            <tbody id="cartList">
+              <!-- Os itens do carrinho serão adicionados aqui -->
             </tbody>
           </table>
-        </div> 
-        <div class="form-group">
-          <label for="name">Nome Completo</label> 
-          <input id="name" type="text" class="">
-        </div> 
-        <div class="form-group">
-          <label for="email">Email</label> 
-          <input type="email" id="email" class="">
-        </div> 
-        <div class="form-group">
-          <label for="player">ID no Servidor</label> 
-          <input id="player" class="">
-        </div> <!----> <!----> 
-        <div class="row p-0"></div> 
-        <div class="row align-items-stretch"><!---->
-          <div class="col-6 col-sm-3 col-lg-2">
-            <div class="gateway selected">
-              <img src="images/mercadopago.png" alt="mercadopago"> <!---->
-            </div>
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <div class="gateway">
-              <img src="images/boleto.png" alt="mercadopago-bankslip"> <!---->
-            </div>
-          </div><!----><!----><!----><!----><!---->
-          <div class="col-6 col-sm-3 col-lg-2">
-            <div class="gateway">
-              <img src="images/pix.png" alt="pix"> <!---->
-            </div>
-          </div>
-        </div> 
-        <div class="politics mt-5">
-          <input type="checkbox" checked="checked"> 
-          <a href="#" data-darkreader-inline-color="" style="color: var(--info); --darkreader-inline-color: var(--darkreader-text--info, #e3e1de);">
-            Eu li e estou de acordo com as políticas de pagamento deste site.
-          </a>
-        </div> <!---->
-      </div> 
-      <div class="toasters">
-        <div mode="in-out">
         </div>
-      </div> <!---->
+      </div>
+    </div>
+
+    <div id="checkout-details" class="container mt-4">
+      <h2>Detalhes de Checkout</h2>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="fullName">Nome Completo:</label>
+          <input type="text" class="form-control" id="fullName" name="fullName" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="serverId">ID do Servidor:</label>
+          <input type="text" class="form-control" id="serverId" name="serverId" required>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Método de Pagamento:</label>
+          <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+            <option value="">Selecione</option>
+            <option value="pix">PIX</option>
+            <option value="creditCard">Mercado Pago QR</option>
+            <option value="boleto">Boleto Bancário</option>
+          </select>
+        </div>
+        <div class="form-group" id="cpfGroup" style="display: none;">
+          <label for="cpf">CPF:</label>
+          <input type="text" class="form-control" maxlength="11" id="cpf" name="cpf">
+          <p>(O CPF é obrigatório para o método de pagamento escolhido)</p>
+        </div>
+        <label for="termsCheckbox" class="checkbox-label">
+          <input type="checkbox" id="termsCheckbox" required>
+          <a href="politica-pagamento.html" target="_blank">Eu li e estou de acordo com as políticas de pagamento deste site.</a>
+        </label>
+        <button id="submitButton" class="btn btn-primary" style="display: none;">Finalizar Doação</button>
+      </form>
+      <br><br><br><br>
+    </div>
+
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 footer-col">
+            <div class="footer_contact">
+              <h4>
+                Entre em Contato
+              </h4>
+              <div class="contact_link_box">
+                <a href="https://discord.gg/dtbq78SPpn">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  <span>
+                    Discord
+                  </span>
+                </a>
+                <br>
+                <a href="mailto:emailaddress@whatever.com">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span>
+                    kansasrp@gmail.com
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 footer-col">
+            <div class="footer_detail">
+              <a href="index.html">
+                <img src="images/kansas_logo.png" class="footer-logo" width="200" height="100">
+              </a>
+              <div class="footer_social">
+                <div class="social_box">
+                  <a href="teste.html">
+                      <img src="images/fb.png" alt="">
+                  </a>
+                  <a href="">
+                      <img src="images/twitter.png" alt="">
+                  </a>
+                  <a href="https://discord.gg/dtbq78SPpn" target="_blank">
+                      <img src="images/discord.png" alt="" width="30" height="20">
+                  </a>
+                  <a href="">
+                      <img src="images/youtube.png" alt="">
+                  </a>
+                </div>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-info">
+          <p>
+            &copy; <span id="displayYear"></span> Todos os Direitos Reservados Kansas RP
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- footer section -->
+
+    <!-- Modal POLITICAS -->
+    <div id="privacyModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeModal">&times;</span>
+        <h2>Políticas de Privacidade</h2>
+        <p>Você pode realizar contribuições periódicas pelo período de 30 dias, que irá dar algumas vantagens por esse tempo, ou até mesmo realizar contribuições como doações para auxiliar no custeio do servidor.</p>
+        <p>As contribuições realizadas não te fazem imunes de seguir as regras do condado!</p>
+        <p>Nós não fazemos nenhum tipo de reembolso de doações!</p>
+        <p>Nenhuma contribuição te dá direito de faltar com o respeito com algum membro da staff ou com outros players!</p>
+        <p>Não é permitido venda de itens adquiridos por gold no condado!</p>
+        <p>Em casos de invatividade de fazendas (o não pagamento da taxa mensal em dollar do jogo dia 15) as mesmas poderá a prefeitura tomar posse e vender novamente.</p>
+        <p>Quando você faz uma doação automaticamente está aceitando todas as diretrizes acima!</p>
+        <p>Para receber os itens referentes a sua doação é necessário abrir ticket financeiro com o comprovante.</p>
+      </div>
     </div>
 
     <script>
-      class Carousel {
+      document.addEventListener('DOMContentLoaded', () => {
+        const paymentMethodSelect = document.getElementById('paymentMethod');
+        const cpfGroup = document.getElementById('cpfGroup');
+        const cpfInput = document.getElementById('cpf');
+        const submitButton = document.getElementById('submitButton');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const serverIdInput = document.getElementById('serverId');
 
-        constructor(id, images) {
-          this.product_id = id;
-          this.images = images;
-          this.image = null;
-          this.index = -1;
+        function validateForm() {
+            const isTermsChecked = termsCheckbox.checked;
+            const isPaymentMethodSelected = paymentMethodSelect.value !== '';
+            const isFullNameValid = validateFullName(fullNameInput.value);
+            const isEmailValid = emailInput.value.trim() !== '';
+            const isServerIdValid = serverIdInput.value.trim() !== '';
+            const isCpfValid = cpfGroup.style.display === 'none' || isValidCPF(cpfInput.value);
 
-          this.length = this.images.length;
-
-          this.next();
+            if (isTermsChecked && isPaymentMethodSelected && isFullNameValid && isEmailValid && isServerIdValid && isCpfValid) {
+              submitButton.style.display = 'inline-block';
+            } else {
+              submitButton.style.display = 'none';
+            }
         }
 
-        next() {
-          this.index+=1;
-          this.image = this.images[this.index % this.images.length];
+        paymentMethodSelect.addEventListener('change', () => {
+            const selectedMethod = paymentMethodSelect.value;
+            if (selectedMethod === 'pix' || selectedMethod === 'boleto') {
+              cpfGroup.style.display = 'block';
+              cpfInput.setAttribute('required', 'required');
+            } else {
+              cpfGroup.style.display = 'none';
+              cpfInput.removeAttribute('required');
+            }
+            validateForm();
+        });
+
+        fullNameInput.addEventListener('input', validateForm);
+        emailInput.addEventListener('input', validateForm);
+        serverIdInput.addEventListener('input', validateForm);
+        cpfInput.addEventListener('input', validateForm);
+        termsCheckbox.addEventListener('change', validateForm);
+
+        submitButton.addEventListener('click', (event) => {
+            if (cpfGroup.style.display === 'block' && !isValidCPF(cpfInput.value)) {
+              alert('CPF inválido!');
+              event.preventDefault(); // Impede o envio do formulário se o CPF for inválido
+              return;
+            }
+
+          // Validação e envio do formulário aqui
+        });
+
+        function validateFullName(name) {
+            return name.trim().split(/\s+/).length >= 2;
         }
 
-        before() {
-          this.index-=1;
-          if (this.index < 0) this.index = this.images.length-1;
-          this.image = this.images[this.index%this.images.length];
-        }
-      }
+        function isValidCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, ''); // Remove qualquer caractere que não seja número
 
-      const App = new Vue({
-        el: '#root',
-        data: {
-          framework: 'vrp',
-          night: JSON.parse(localStorage.getItem('night') || 'true'),
-          home: true,
-
-          checkout: false,
-          checkinOut: false,
-          payer: {
-            address: {},
-                  },
-
-          dropdown: { enabled:false },
-          etc: { selected:null },
-          downbarFixed: false,
-
-          discord: {"id":"261955141643534336","username":"ridenn","avatar":"d72d12c8ca0ac8c8cb6368b4f34fe8e5","discriminator":"0","public_flags":64,"flags":64,"banner":null,"accent_color":14230053,"global_name":"Ridenn","avatar_decoration_data":null,"banner_color":"#d92225","clan":null,"mfa_enabled":true,"locale":"pt-BR","premium_type":0},
-          homes: [],
-
-          query: null,
-          category: null,
-          modal: null,
-          toasters: [],
-          categories: [],
-          products: [],
-          carousel: {},
-          page: 1,
-          cart: JSON.parse(localStorage.getItem('cart7762') || '[]'),
-          gateway: null,
-          acceptPolitics: false,
-          variations: {},
-          coupon: { name:'' },
-
-          gateways: {
-            sandbox: {
-              enabled: false,
-              tax: 0,
-              image: 'https://loja.oesterp.com.br/assets/sandbox_small.png'
-            },
-            mercadopago: {
-              enabled: true,
-              tax:  '0',
-              mode: 'qr',
-              image: 'https://loja.oesterp.com.br/assets/gateways/mercadopago.png'
-            },
-            'mercadopago-bankslip': {
-              enabled: true,
-              tax:  '0',
-              image: 'https://loja.oesterp.com.br/assets/boleto.png'
-            },
-            'mercadopago-card': {
-              enabled: false,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/credit_card.png'
-            },
-            pagseguro: {
-              enabled: false,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/gateways/pagseguro.png'
-            },
-            paypal: {
-              enabled: false,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/gateways/paypal.png'
-            },
-            picpay: {
-              enabled: false,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/gateways/picpay.png'
-            },
-            banktransfer: {
-              enabled: false,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/gateways/banktransfer.png'
-            },
-            pix: {
-              enabled: true,
-              tax: '0',
-              image: 'https://loja.oesterp.com.br/assets/gateways/pix.png'
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+              return false; // Verifica se o CPF tem 11 dígitos e não é uma sequência de números iguais
             }
-          },
 
-          widgets: {
-            best_seller: {
-              enabled: true,
-              data: {
-                product_id: 199070
-              }
-            },
-            online_players: {
-              enabled: false,
-              data: {
-                online: 0,
-                max: 0
-              }
-            },
-            goal_bar: {
-              enabled: false,
-              data: {
-                current: 0,
-                goal: 0
-              }
-            }
-          }
-        },
-        watch: {
-          'payer.player'(val) {
-            if (this.framework === 'vrp') {
-              if (Number(this.payer.player) > 100000000) this.payer.player = ''
-              else this.payer.player = parseInt(String(val).replace(/\D/g, '')) || ''
-            }
-          },
-          'payer.cpf'(val) {
-            if (val) {
-              const digits = val.replace(/\D/g,'').split('').slice(0, 11);
-              const len = digits.length;
-              if (len > 3) digits.splice(3, 0, '.');
-              if (len > 6) digits.splice(7, 0, '.');
-              if (len > 9) digits.splice(11, 0, '-');
-              this.payer.cpf = digits.join('');
-            }
-          },
-          'payer.address.zip_code'(val) {
-            const numbers = val && val.replace(/\D/,'')
-            if (numbers && numbers.length === 8 && numbers !== this.payer.address.numbers) {
-              axios.get('https://viacep.com.br/ws/'+val+'/json/').then(res => {
-                const { erro, cep, logradouro } = res.data;
-                if (erro) alert('Não foi possível buscar este CEP');
-                this.payer.address = erro ? {} : { numbers, zip_code:cep,street_name:logradouro }
-              });
-            }
-          },
-          'coupon.name'() {
-            this.coupon.exists = null;
-            this.coupon.value = null;
-          } ,
-          home(val) {
-            if (val) {
-              this.category = null;
-              this.checkout = false;
-            }
-          },
-          checkout(val) {
-            if (val) {
-              this.category = null;
-              this.home = false;
-            }
-          },
-          night(val) {
-            localStorage.setItem('night', JSON.stringify(val));
-          },
-          products() {
-            this.page = 1;
-          },
-          query(val) {
-            if (val) {
-              this.home = false;
-              this.checkout = false;
-              this.category = null;
-              this.products = this.categories.map(c=>c.products).flat().filter(p => {
-                return p.name.toUpperCase().includes(val.toUpperCase());
-              });
-            } else this.products = [];
-          },
-          variations: {
-            handler(val) {
-              const values = Object.values(val);
-              console.log(values)
-              for (let v of values) {
-                const len = values.filter(value => value === v).length;
-                if (len > 1) {
-                  this.addToast("O servidor n\u00e3o suporte escolhas duplicadas", 'danger');
-                  break;
-                }
-              }
-            },
-            deep: true
-          },
-          cart(cart) {
-            for (const id in this.variations)
-              if (!cart.includes(id)) delete this.variations[id];
-
-            localStorage.setItem('cart7762', JSON.stringify(cart));
-
-            if (cart && cart.length === 0 && this.checkout) {
-              this.checkout = false;
-              this.home = true;
-            } else if (this.coupon.value) {
-              this.coupon = { name: '' };
-            }
-          }
-        },
-        computed: {
-          has_widgets() {
-            return !!Object.values(this.widgets).find(o => o.enabled);
-          },
-          ask_for_address() {
-            return this.gateway === 'mercadopago-card';
-          },
-          ask_for_cpf() {
-            return this.gateway === 'pix' || this.gateway === 'mercadopago-bankslip' || false;
-          },
-          cart_variations() {
-            return this.categories.map(c=>c.products).flat().map(p=>p.variations).flat().filter(v=>this.cart.includes(v.product_id))
-          },
-          products_in_page() {
-            const start = (this.page-1) * 9;
-            return !!this.products && this.products.slice(start, start+9);
-          },
-          has_next_page() {
-            return this.products && this.products.length > this.page*9;
-          },
-          pages() {
-            if (!this.products || this.products.length <= 9) return [];
-            const pages = [];
-            for (let i = 0; i < this.products.length/9; i++) {
-              pages.push({ page: i+1, selected: this.page===i+1 })
-            }
-            return pages;
-          },
-          cart_total() {
-            return this.cart.map(id => this.findProduct(id).price).sum() - (this.coupon.value || 0);
-          },
-          can_checkout() {
-            const payer = this.payer;
-            if (this.cart.length === 0 || !this.gateway || !payer.name || !this.isFullname(payer.name) ||
-              !payer.email || !this.isEmail(payer.email) || !payer.player)
-              return false;
-            if (this.ask_for_address && (payer.address.street_name == null || !payer.address.street_number))
-              return false;
-
-            for (let variation of this.cart_variations)
-              if (!this.variations[variation.id]) return false;
-
-            const selected = Object.values(this.variations);
-
-            for (let v of selected)
-              if (selected.filter(s => s === v).length > 1) return false;
-
-            return !(this.ask_for_cpf && (!this.isCPF(payer.cpf))) && this.acceptPolitics;
-          }
-        },
-        methods: {
-          getTax(gateway) {
-            let tax = this.gateways[gateway].tax;
-            let value = parseFloat(tax);
-            const off = value < 0;
-            if (value === 0) return undefined;
-            return [off, `${off?'':'+ '}${Math.abs(value)}${tax.endsWith('%') ? '%' : ''}${off ? ' OFF':''}`]
-          },
-          gotoPage(page) {
-            this.page = page;
-            window.scrollTo({
-              behavior: "smooth",
-              top: 0
-            });
-          },
-          addToCart(product) {
-            this.addToast(":name agora est\u00e1 no seu carrinho".replace(':name', product.name), 'success');
-            this.cart.push(product.id);
-          },
-          removeFromCart(product) {
-            if (!product.name) product = this.findProduct(product);
-            this.addToast(":name saiu do seu carrinho".replace(':name', product.name), 'danger');
-            this.cart.splice(this.cart.indexOf(product.id), 1);
-          },
-          gotoCategory(category) {
-            this.checkout = false;
-            this.home = false;
-            this.category = category;
-            this.products = category.products;
-          },
-          gotoCheckout() {
-            if (this.framework === 'esx' && !this.payer.player) {
-              this.addToast("Voc\u00ea precisa logar com a Steam primeiro", 'danger')
-            } else if (this.cart.length > 0) {
-              this.checkout = true;
-            } else this.addToast("Seu carrinho est\u00e1 vazio", 'danger');
-          },
-          isVariationBlocked(key) {
-            if (Array.isArray(this.homes)) {
-              return this.homes.includes(key);
-            } else return this.homes[key] && this.homes[key] != this.payer.player;
-          },
-          isFullname(name) {
-            if (!name || !name.includes(' ') || name.match(/\d/g)) return false;
-            return name.split(' ', 2).map(s=>s.trim()).findIndex(s=>s.length===0) === -1;
-          },
-          isEmail(email) {
-            return email && email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-          },
-          isCPF(cpf) {
-            if (!cpf) return false;
             let sum = 0;
-            if ((cpf = cpf.trim().replace(/\D/g,'')) && cpf === cpf[0].repeat(11) || cpf.length<11) return false;
+            let remainder;
 
-            for (let i=1; i<=9; i++) sum = sum + parseInt(cpf.substring(i-1, i)) * (11 - i);
-            let rest = (sum * 10) % 11;
+            // Valida o primeiro dígito verificador
+            for (let i = 1; i <= 9; i++) {
+              sum += parseInt(cpf[i - 1]) * (11 - i);
+            }
+            remainder = (sum * 10) % 11;
+            if (remainder === 10 || remainder === 11) remainder = 0;
+            if (remainder !== parseInt(cpf[9])) return false;
 
-            if ((rest === 10) || (rest === 11))  rest = 0;
-            if (rest !== parseInt(cpf.substring(9, 10)) ) return false;
-
+            // Valida o segundo dígito verificador
             sum = 0;
-            for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i-1, i)) * (12 - i);
-            rest = (sum * 10) % 11;
-
-            if ((rest === 10) || (rest === 11)) rest = 0;
-            return (rest === parseInt(cpf.substring(10, 11)))
-          },
-          queryCoupon() {
-            if (this.coupon.name) {
-              let path = window.location.pathname;
-              if (path.length === 1) path = '';
-              axios.get(path+'/cart/coupon/'+this.coupon.name, {
-                params: {
-                  cart: this.cart
-                }
-              }).then(res => {
-                const { exists, value } = res.data;
-                this.coupon = { name: this.coupon.name, exists, value };
-              });
+            for (let i = 1; i <= 10; i++) {
+              sum += parseInt(cpf[i - 1]) * (12 - i);
             }
-          },
-          findProduct(id) {
-            return this.categories.map(c => c.products).flat().find(p => p.id===id)
-          },
-          finish() {
-            if (this.checkinOut) return;
-            const { name, email, player, cpf, address } = this.payer;
-            const { name:coupon } = this.coupon;
-            const gateway = this.gateway;
+            remainder = (sum * 10) % 11;
+            if (remainder === 10 || remainder === 11) remainder = 0;
+            if (remainder !== parseInt(cpf[10])) return false;
 
-            const data = {
-              _token: '7fuoZlMcMLzsuRUvHVcYUxNbwLM02gsOd1bjinim',
-              name,
-              email,
-              player,
-              cpf,
-              address,
-              coupon,
-              gateway,
-              discord: this.discord.id ? this.discord : null,
-              variations: this.variations||{},
-              cart: this.cart
-            }
-
-            delete data.address['numbers'];
-
-            this.checkinOut = true;
-            axios.post('https://loja.oesterp.com.br/checkout?oesterp', data).then(response => {
-              const data = response.data;
-              this.cart = [];
-              if (data.success) {
-                this.addToast(data.success, 'success');
-                this.checkout = false;
-                this.home = true;
-              } else if (data.link && typeof data.link === 'string') {
-                window.open(data.link, "_self");
-              } else if (typeof data === 'object') {
-                if (data.error) {
-                  this.addToast(data.error, 'danger');
-                } else this.addToast("Erro desconhecido", 'danger');
-                console.warn(data);
-              } else document.write(data);
-            }).catch(e => {
-              const { error } = e.response.data;
-              this.addToast(error || "Erro interno", 'danger');
-            }).then(() => this.checkinOut = false);
-          },
-          addToast(message, type='info') {
-            const uid = (Math.random()*100).toString(36);
-            this.toasters.push({ uid,message,type });
-            setTimeout(() => {
-              const index = this.toasters.findIndex(i => i.uid === uid);
-              if (index > -1) this.toasters.splice(index,1);
-            }, 3000);
-          }
-        },
-        created() {
-          axios.get('https://loja.oesterp.com.br/categories?oesterp').then(response => {
-            const data = response.data.sort((a,b) => a.weight - b.weight);
-            data.forEach(c => c.products = c.products.sort((a,b) => a.price-b.price).map(p => {
-              p.carousel = new Carousel(p.id, p.images);
-              return p;
-            }));
-            this.categories = data;
-            document.querySelector('body').style.opacity="1";
-
-            for (let id of this.cart) {
-              const product = this.findProduct(id);
-              if (!product || !product.enabled || product.stock === 0) {
-                this.cart.splice(this.cart.indexOf(id), 1);
-              }
-            }
-          });
+            return true;
         }
-      });
 
-      Array.prototype.sum = function () {
-        return this.reduce((prev,cur) => prev+cur, 0);
-      }
+        var modal = document.getElementById('privacyModal');
+        var closeButton = document.getElementById('closeModal');
+        var privacyLink = document.querySelector('a[href="politica-pagamento.html"]');
+        
+        // Abrir o modal
+        privacyLink.addEventListener('click', function(event) {
+          event.preventDefault(); // Impede o link de seguir o href
+          modal.style.display = 'block';
+        });
+        
+        // Fechar o modal
+        closeButton.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+        
+        // Fechar o modal se o usuário clicar fora do conteúdo
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+
+      });
     </script>
 
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
 
   </body>
 </html>
