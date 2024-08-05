@@ -99,6 +99,10 @@ a:focus {
           box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
 }
 
+.fixed_space {
+  margin-top: 35px;
+}
+
 .header_section .container-fluid {
   padding-right: 25px;
   padding-left: 25px;
