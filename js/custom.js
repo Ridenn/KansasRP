@@ -251,7 +251,6 @@ function addToCart(productId) {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     
     updateCartCount();
-    updateCartDisplay();
 	updateButtonState(productId, carrinho);
 }
 
@@ -471,6 +470,15 @@ function removeItem(productId) {
     updateButtonState(productId); // Atualizar o botão após remover
 }
 
+function removeFromCart(productId) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho = carrinho.filter(item => item.productId !== productId);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    updateCartCount();
+    updateButtonState(productId); // Atualizar o botão após remover
+}
+
 // Função para atualizar o estado do botão
 function updateButtonState(productId) {
     const button = document.getElementById(`button-${productId}`);
@@ -480,7 +488,7 @@ function updateButtonState(productId) {
     if (productIndex !== -1) {
         // Produto está no carrinho, mostrar "Remover do Carrinho"
         button.textContent = 'Remover do Carrinho';
-        button.onclick = () => removeItem(productId);
+        button.onclick = () => removeFromCart(productId);
     } else {
         // Produto não está no carrinho, mostrar "Adicionar ao Carrinho"
         button.textContent = 'Adicionar ao Carrinho';
