@@ -29,8 +29,6 @@ body {
   padding-bottom: 90px;
 }
 
-
-
 .heading_container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -113,6 +111,8 @@ a:focus {
   z-index: 1000; /* Para garantir que o cabeçalho fique acima do restante do conteúdo */
   background-color: #202020; /* Cor de fundo da barra */
   padding: 10px 0; /* Espaçamento interno */
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+          box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -1118,7 +1118,7 @@ body {
   }
 
   #container {
-    margin: 20px;
+    margin: 70px;
 }
 
 .footer_contact {
