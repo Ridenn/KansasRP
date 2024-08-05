@@ -33,6 +33,15 @@
     <link rel="stylesheet" href="west/all.min.css">
     <link rel="stylesheet" href="west/animate.min.css">
     <link rel="stylesheet" href="west/7762.css">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+          emailjs.init({
+            publicKey: "XuyBSx9mw9PIZLyYt",
+          });
+      })();
+    </script>
     
     <script src="west/vue@2.6.12"></script>
     <script src="west/axios.min.js"></script>
@@ -167,7 +176,9 @@
           <a href="politica-pagamento.html" target="_blank">Eu li e estou de acordo com as políticas de pagamento deste site.</a>
         </label>
         <br>
-        <button id="submitButton" class="btn btn-primary" style="display: none;">Finalizar Doação</button>
+        <input type="hidden" id="totalAmount" name="totalAmount" value="">
+        <input type="hidden" id="cartItems" name="cartItems" value="">
+        <button id="submitButton" type="submit" class="btn btn-primary" style="display: none;">Finalizar Doação</button>
       </form>
       <br><br><br><br>
     </div>
@@ -237,14 +248,14 @@
       <div class="modal-content">
         <span class="close-button" id="closeModal">&times;</span>
         <h2>Políticas de Privacidade</h2>
-        <p>Você pode realizar contribuições periódicas pelo período de 30 dias, que irá dar algumas vantagens por esse tempo, ou até mesmo realizar contribuições como doações para auxiliar no custeio do servidor.</p>
-        <p>As contribuições realizadas não te fazem imunes de seguir as regras do condado!</p>
-        <p>Nós não fazemos nenhum tipo de reembolso de doações!</p>
-        <p>Nenhuma contribuição te dá direito de faltar com o respeito com algum membro da staff ou com outros players!</p>
-        <p>Não é permitido venda de itens adquiridos por gold no condado!</p>
-        <p>Em casos de invatividade de fazendas (o não pagamento da taxa mensal em dollar do jogo dia 15) as mesmas poderá a prefeitura tomar posse e vender novamente.</p>
-        <p>Quando você faz uma doação automaticamente está aceitando todas as diretrizes acima!</p>
-        <p>Para receber os itens referentes a sua doação é necessário abrir ticket financeiro com o comprovante.</p>
+        <p>Você pode fazer contribuições mensais por 30 dias, o que lhe dará algumas vantagens durante esse período. Também é possível fazer doações para ajudar a manter o servidor.</p>
+        <p>Essas contribuições não lhe isentam de seguir as regras do condado!</p>
+        <p>Nós não oferecemos reembolsos de doações!</p>
+        <p>Contribuições não dão o direito de desrespeitar membros da equipe ou outros jogadores!</p>
+        <p>A venda de itens adquiridos com ouro do condado é proibida!</p>
+        <p>Se houver inatividade das fazendas (falta de pagamento da taxa mensal em dólares do jogo até o dia 15), a prefeitura poderá tomar posse e vendê-las novamente.</p>
+        <p>Ao fazer uma doação, você aceita automaticamente todas as diretrizes mencionadas acima!</p>
+        <p>Para receber os itens relacionados à sua doação, é necessário abrir um ticket financeiro com o comprovante.</p>
       </div>
     </div>
 
@@ -258,6 +269,20 @@
         const fullNameInput = document.getElementById('fullName');
         const emailInput = document.getElementById('email');
         const serverIdInput = document.getElementById('serverId');
+        const totalAmountInput = document.getElementById('totalAmount');
+        const cartItemsInput = document.getElementById('cartItems');
+
+        paymentMethodSelect.addEventListener('change', () => {
+            const selectedMethod = paymentMethodSelect.value;
+            if (selectedMethod === 'pix' || selectedMethod === 'boleto') {
+              cpfGroup.style.display = 'block';
+              cpfInput.setAttribute('required', 'required');
+            } else {
+              cpfGroup.style.display = 'none';
+              cpfInput.removeAttribute('required');
+            }
+            validateForm();
+        });
 
         function validateForm() {
             const isTermsChecked = termsCheckbox.checked;
@@ -274,18 +299,6 @@
             }
         }
 
-        paymentMethodSelect.addEventListener('change', () => {
-            const selectedMethod = paymentMethodSelect.value;
-            if (selectedMethod === 'pix' || selectedMethod === 'boleto') {
-              cpfGroup.style.display = 'block';
-              cpfInput.setAttribute('required', 'required');
-            } else {
-              cpfGroup.style.display = 'none';
-              cpfInput.removeAttribute('required');
-            }
-            validateForm();
-        });
-
         fullNameInput.addEventListener('input', validateForm);
         emailInput.addEventListener('input', validateForm);
         serverIdInput.addEventListener('input', validateForm);
@@ -293,13 +306,33 @@
         termsCheckbox.addEventListener('change', validateForm);
 
         submitButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Preenche os campos invisíveis com os valores obtidos
+            totalAmountInput.value = calculateTotalAmount();
+            cartItemsInput.value = JSON.stringify(getCartItems());
+
             if (cpfGroup.style.display === 'block' && !isValidCPF(cpfInput.value)) {
               alert('CPF inválido!');
-              event.preventDefault(); // Impede o envio do formulário se o CPF for inválido
               return;
             }
 
-          // Validação e envio do formulário aqui
+            // Limpar o carrinho
+            localStorage.removeItem('carrinho');
+
+            const selectedMethod = paymentMethodSelect.value;
+            let redirectUrl = '';
+
+            if (selectedMethod === 'pix') {
+                redirectUrl = 'pix_sucesso.html';
+            } else if (selectedMethod === 'boleto') {
+                redirectUrl = 'boleto_sucesso.html';
+            } else if (selectedMethod === 'outro') {
+                redirectUrl = 'outra_pagina.html'; // Substitua 'outra_pagina.html' pela página desejada
+            }
+
+            // Envio do formulário p/ email do Kansas aqui
+            sendEmail(redirectUrl);
         });
 
         function validateFullName(name) {
@@ -336,6 +369,46 @@
             return true;
         }
 
+        function calculateTotalAmount() {
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            let totalAmount = 0;
+
+            carrinho.forEach(item => {
+                totalAmount += item.productPrice * item.productQuantity;
+            });
+
+            return totalAmount.toFixed(2);
+        }
+
+        function getCartItems() {
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            return carrinho.map(item => `Produto: ${item.productName}, Quantidade: ${item.productQuantity}, Preço: R$ ${item.productPrice.toFixed(2)}`).join('  •  ');
+        }
+
+        function sendEmail(redirectUrl) {
+            let params = {
+              fullName : document.getElementById("fullName").value,
+              email : document.getElementById("email").value,
+              cpf : document.getElementById("cpf").value,
+              serverId : document.getElementById("serverId").value,
+              paymentMethod : document.getElementById("paymentMethod").value,
+              cartItems : document.getElementById("cartItems").value,
+              totalAmount : document.getElementById("totalAmount").value,
+            }
+
+            emailjs.send("service_2k2vczc", "template_kcambaq", params).then((result) => {
+                console.log(result.text);
+                // Manda pra página específica do pagamento
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+                //alert('Mensagem enviada com sucesso!');
+            }, (error) => {
+                console.log(error.text);
+                alert('Falha ao enviar pedido. Tente novamente.');
+            });
+        }
+
         var modal = document.getElementById('privacyModal');
         var closeButton = document.getElementById('closeModal');
         var privacyLink = document.querySelector('a[href="politica-pagamento.html"]');
@@ -357,7 +430,6 @@
             modal.style.display = 'none';
           }
         });
-
       });
     </script>
 

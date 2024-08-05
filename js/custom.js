@@ -487,11 +487,15 @@ function updateButtonState(productId) {
 
     if (productIndex !== -1) {
         // Produto está no carrinho, mostrar "Remover do Carrinho"
-        button.textContent = 'Remover do Carrinho';
+		button.classList.add('btn2');
+		button.classList.remove('btn1');
+        button.innerHTML = '<i class="fas fa-trash-alt"></i> Remover do Carrinho'; // Adiciona ícone de lixeira
         button.onclick = () => removeFromCart(productId);
     } else {
         // Produto não está no carrinho, mostrar "Adicionar ao Carrinho"
-        button.textContent = 'Adicionar ao Carrinho';
+		button.classList.add('btn1');
+		button.classList.remove('btn2');
+        button.innerHTML = '<i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho'; // Adiciona ícone de carrinho
         button.onclick = () => addToCart(productId);
     }
 }

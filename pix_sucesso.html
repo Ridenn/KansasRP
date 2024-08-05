@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doação Registrada</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #202020;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+        }
+        .message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">
+            Doação registrada!<br>
+            Por favor prossiga com o pagamento para liberação automática!
+        </div>
+        <div class="qr-code">
+            <img src="images/qr.png" alt="QR Code">
+        </div>
+        <a href="index.html" class="back-button">Voltar para Início</a>
+    </div>
+</body>
+</html>
