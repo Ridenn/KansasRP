@@ -180,8 +180,10 @@
           <select class="form-control" id="paymentMethod" name="paymentMethod" required>
             <option value="">Selecione</option>
             <option value="pix">PIX</option>
+            <!--
             <option value="creditCard">Mercado Pago QR</option>
             <option value="boleto">Boleto Bancário</option>
+            -->
           </select>
         </div>
         <div class="form-group" id="cpfGroup" style="display: none;">
@@ -355,7 +357,7 @@
             }
 
             // Envio do formulário p/ email do Kansas aqui
-            sendEmail(redirectUrl);
+            sendEmail(selectedMethod, totalAmountInput.value);
         });
 
         function validateFullName(name) {
@@ -393,14 +395,24 @@
         }
 
         function calculateTotalAmount() {
-            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            let totalAmount = 0;
+            const totalDisplay = document.getElementById('totalDisplay');
 
-            carrinho.forEach(item => {
-                totalAmount += item.productPrice * item.productQuantity;
-            });
+            if (!totalDisplay) {
+              console.error('Elemento com ID "totalDisplay" não encontrado.');
+              return 0;
+            }
 
-            return totalAmount.toFixed(2);
+            // Obtém o texto do elemento, removendo caracteres não numéricos e ajustando o separador decimal
+            const totalText = totalDisplay.textContent.replace(/[^\d,.-]/g, '');
+            const totalValue = parseFloat(totalText.replace(',', '.'));
+
+            // Verifica se a conversão foi bem-sucedida
+            if (isNaN(totalValue)) {
+              console.error('Não foi possível converter o texto em número:', totalText);
+              return 0;
+            }
+
+            return totalValue;
         }
 
         function getCartItems() {
@@ -408,7 +420,7 @@
             return carrinho.map(item => `Produto: ${item.productName}, Quantidade: ${item.productQuantity}, Preço: R$ ${item.productPrice.toFixed(2)}`).join('  •  ');
         }
 
-        function sendEmail(redirectUrl) {
+        function sendEmail(selectedMethod, totalDonation) {
             let params = {
               fullName : document.getElementById("fullName").value,
               email : document.getElementById("email").value,
@@ -416,16 +428,36 @@
               serverId : document.getElementById("serverId").value,
               paymentMethod : document.getElementById("paymentMethod").value,
               cartItems : document.getElementById("cartItems").value,
-              totalAmount : document.getElementById("totalAmount").value,
+              totalAmount : totalDonation,
               couponValue : document.getElementById("couponValue").value,
             }
 
             emailjs.send("service_o0ecb2m", "template_tdvkhl3", params).then((result) => {
                 console.log(result.text);
+
+                if (selectedMethod === 'pix') {
+                    // GERAR PIX PARA TESTE
+                    window.$openpix = window.$openpix || []; // priorize o objeto já instanciado
+                    window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkX2ZhZTQwYTI5LTk4NGMtNDU1Yi05NTkwLTIzMDI1MDE2YmI1NzpDbGllbnRfU2VjcmV0X3ozRVRPbmNiSFpMakM0MU1HNU4zWUsrQlp2eFRubERoNWZFOUVCdmV1OWM9' }]);
+
+                    const gerarCorrelationIdUnico = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('')
+
+                    window.$openpix.push([
+                      'pix',
+                      {
+                        value: totalDonation * 100, // em centavos
+                        correlationID: gerarCorrelationIdUnico(30),
+                        expiresIn: 1800, // 30 minutos em segundos
+                      },
+                    ]);
+                }
+
                 // Manda pra página específica do pagamento
+                /*
                 if (redirectUrl) {
                     window.location.href = redirectUrl;
                 }
+                    */
                 //alert('Mensagem enviada com sucesso!');
             }, (error) => {
                 console.log(error.text);
@@ -462,6 +494,7 @@
     <script src="js/custom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+    <script src="https://plugin.openpix.com.br/v1/openpix.js" async></script>
 
   </body>
 </html>
