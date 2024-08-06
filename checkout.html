@@ -203,6 +203,7 @@
         </label>
         <br>
         <input type="hidden" id="totalAmount" name="totalAmount" value="">
+        <input type="hidden" id="paidAmount" name="paidAmount" value="">
         <input type="hidden" id="cartItems" name="cartItems" value="">
         <input type="hidden" id="couponValue" name="couponValue" value="">
         <button id="submitButton" type="submit" class="btn btn-primary" style="display: none;">Finalizar Doação</button>
@@ -303,6 +304,7 @@
         const emailInput = document.getElementById('email');
         const serverIdInput = document.getElementById('serverId');
         const totalAmountInput = document.getElementById('totalAmount');
+        const paidAmountInput = document.getElementById('paidAmount');
         const cartItemsInput = document.getElementById('cartItems');
         const couponInput = document.getElementById('couponValue');
 
@@ -346,6 +348,7 @@
 
             // Preenche os campos invisíveis com os valores obtidos
             totalAmountInput.value = calculateTotalAmount();
+            paidAmountInput.value = calculatePaidAmount();
             cartItemsInput.value = JSON.stringify(getCartItems());
             couponInput.value = (couponInsertedValue.value === '' || couponInsertedValue.value === null) ? 'NENHUM CUPOM' : couponInsertedValue.value;
 
@@ -369,7 +372,7 @@
             }
 
             // Envio do formulário p/ email do Kansas aqui
-            sendEmail(selectedMethod, totalAmountInput.value);
+            sendEmail(selectedMethod, totalAmountInput.value, paidAmountInput.value);
         });
 
         function validateFullName(name) {
@@ -406,7 +409,7 @@
             return true;
         }
 
-        function calculateTotalAmount() {
+        function calculatePaidAmount() {
             const totalDisplay = document.getElementById('totalDisplay');
 
             if (!totalDisplay) {
@@ -427,12 +430,23 @@
             return totalValue;
         }
 
+        function calculateTotalAmount() {
+          let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            let totalAmount = 0;
+
+            carrinho.forEach(item => {
+                totalAmount += item.productPrice * item.productQuantity;
+            });
+
+            return totalAmount.toFixed(2);
+        }
+
         function getCartItems() {
             let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
             return carrinho.map(item => `Produto: ${item.productName}, Quantidade: ${item.productQuantity}, Preço: R$ ${item.productPrice.toFixed(2)}`).join('  •  ');
         }
 
-        function sendEmail(selectedMethod, totalDonation) {
+        function sendEmail(selectedMethod, totalAmount, paidAmount) {
             let params = {
               fullName : document.getElementById("fullName").value,
               email : document.getElementById("email").value,
@@ -440,7 +454,8 @@
               serverId : document.getElementById("serverId").value,
               paymentMethod : document.getElementById("paymentMethod").value,
               cartItems : document.getElementById("cartItems").value,
-              totalAmount : totalDonation,
+              totalAmount : totalAmount,
+              paidAmount : paidAmount,
               couponValue : document.getElementById("couponValue").value,
             }
 
@@ -457,7 +472,7 @@
                     window.$openpix.push([
                       'pix',
                       {
-                        value: totalDonation * 100, // em centavos
+                        value: paidAmount * 100, // em centavos
                         correlationID: gerarCorrelationIdUnico(30),
                         expiresIn: 1800, // 30 minutos em segundos
                       },
