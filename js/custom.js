@@ -526,9 +526,17 @@ function getButtonData(productId) {
     return { productPrice, productName, productImage };
 }
 
-function updateCartCount() {
+function  updateCartCount() {
     let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
     let itemCount = carrinho.reduce((total, item) => total + item.productQuantity, 0);
+    let cartIcon = document.getElementById('cart-icon');
+
+    if (itemCount > 0) {
+        cartIcon.src = 'images/cart_ic_filled.png';
+    } else {
+        cartIcon.src = 'images/cart_ic.png';
+    }
+
     document.getElementById('cart-count').textContent = itemCount;
 }
 
