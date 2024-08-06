@@ -49,6 +49,25 @@
   </head>
 
   <body class="sub_page">
+
+    <!-- Toasts -->
+    <div class="toast-container">
+      <div id="validCouponToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+          <div class="d-flex">
+              <div class="toast-body">
+                  Cupom <span id="validCouponName"></span> inserido com sucesso!
+              </div>
+          </div>
+      </div>
+      <div id="invalidCouponToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+          <div class="d-flex">
+              <div class="toast-body">
+                  Cupom <span id="invalidCouponName"></span> é inválido!
+              </div>
+          </div>
+      </div>
+    </div>
+
     <div class="hero_area_cart">
       <!-- header section strats -->
       <header class="header_section">
@@ -177,6 +196,7 @@
         <br>
         <input type="hidden" id="totalAmount" name="totalAmount" value="">
         <input type="hidden" id="cartItems" name="cartItems" value="">
+        <input type="hidden" id="couponValue" name="couponValue" value="">
         <button id="submitButton" type="submit" class="btn btn-primary" style="display: none;">Finalizar Doação</button>
       </form>
       <br><br><br><br>
@@ -270,6 +290,7 @@
         const serverIdInput = document.getElementById('serverId');
         const totalAmountInput = document.getElementById('totalAmount');
         const cartItemsInput = document.getElementById('cartItems');
+        const couponInput = document.getElementById('couponValue');
 
         paymentMethodSelect.addEventListener('change', () => {
             const selectedMethod = paymentMethodSelect.value;
@@ -307,9 +328,12 @@
         submitButton.addEventListener('click', (event) => {
             event.preventDefault();
 
+            const couponInsertedValue = document.getElementById('couponCodeInput');
+
             // Preenche os campos invisíveis com os valores obtidos
             totalAmountInput.value = calculateTotalAmount();
             cartItemsInput.value = JSON.stringify(getCartItems());
+            couponInput.value = (couponInsertedValue.value === '' || couponInsertedValue.value === null) ? 'NENHUM CUPOM' : couponInsertedValue.value;
 
             if (cpfGroup.style.display === 'block' && !isValidCPF(cpfInput.value)) {
               alert('CPF inválido!');
@@ -393,6 +417,7 @@
               paymentMethod : document.getElementById("paymentMethod").value,
               cartItems : document.getElementById("cartItems").value,
               totalAmount : document.getElementById("totalAmount").value,
+              couponValue : document.getElementById("couponValue").value,
             }
 
             emailjs.send("service_o0ecb2m", "template_tdvkhl3", params).then((result) => {

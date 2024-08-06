@@ -361,12 +361,13 @@ function updateCartDisplay() {
 
     const totalCell3 = document.createElement('td');
     const couponInput = document.createElement('input');
+    couponInput.id = 'couponCodeInput';
     couponInput.placeholder = 'Cupom de Desconto';
     couponInput.type = 'text';
     const applyButton = document.createElement('button');
     applyButton.classList.add('btn', 'btn-sm', 'btn-success');
     applyButton.textContent = 'Aplicar';
-    applyButton.addEventListener('click', applyCoupon);
+    applyButton.addEventListener('click', () => applyCoupon(applyButton));
     totalCell3.appendChild(couponInput);
     totalCell3.appendChild(applyButton);
     totalRow.appendChild(totalCell3);
@@ -429,7 +430,7 @@ function updateSidebar() {
     document.getElementById('cartTotal').textContent = `R$ ${totalPrice.toFixed(2)}`;
 }
   
-function applyCoupon() {
+function applyCoupon(applyButton) {
     const couponInput = document.querySelector('input[placeholder="Cupom de Desconto"]');
     const couponCode = couponInput.value;
     const totalDisplay = document.getElementById('totalDisplay');
@@ -444,8 +445,16 @@ function applyCoupon() {
 		const newTotal = totalPrice - discount;
 		totalDisplay.textContent = `R$ ${newTotal.toFixed(2)}`;
 	} else {
-		alert('Cupom inválido');
+        showCouponToast('invalidCouponToast', couponCode)
+        return
 	}
+
+    showCouponToast('validCouponToast', couponInput.value)
+
+    // Desativar o campo de cupom
+    couponInput.setAttribute('disabled', 'disabled');
+    // Opcionalmente, você pode também desativar o botão de aplicar cupom
+    applyButton.setAttribute('disabled', 'disabled');
 }
 
 function updateQuantity(productId, change) {
@@ -547,6 +556,14 @@ function showToast(toastId, itemName) {
     var toastElement = document.getElementById(toastId);
     var itemNameElement = toastId === 'addToast' ? document.getElementById('addItemName') : document.getElementById('removeItemName');
     itemNameElement.textContent = itemName;
+    var toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
+function showCouponToast(toastId, couponName) {
+    var toastElement = document.getElementById(toastId);
+    var couponNameElement = toastId === 'validCouponToast' ? document.getElementById('validCouponName') : document.getElementById('invalidCouponName');
+    couponNameElement.textContent = couponName;
     var toast = new bootstrap.Toast(toastElement);
     toast.show();
 }
