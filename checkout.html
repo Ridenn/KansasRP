@@ -515,13 +515,13 @@
               paymentMethod : document.getElementById("paymentMethod").value,
               cartItems : document.getElementById("cartItems").value,
               totalAmount : totalAmount,
-              paidAmount : paidAmount.toFixed(2),
+              paidAmount : parseFloat(paidAmount).toFixed(2),
               couponValue : document.getElementById("couponValue").value,
             }
 
             emailjs.send("service_o0ecb2m", "template_tdvkhl3", params).then((result) => {
                 console.log(result.text);
-                console.log('Email enviada com sucesso!');
+                console.log('Email enviado com sucesso!');
 
                 // Manda pra página específica do pagamento
                 if (redirectUrl) {
