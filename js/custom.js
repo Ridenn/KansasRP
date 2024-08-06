@@ -252,6 +252,9 @@ function addToCart(productId) {
     
     updateCartCount();
 	updateButtonState(productId, carrinho);
+
+    // Mostrar toast de adição
+    showToast('addToast', productName);
 }
 
 let totalPrice = 0; 
@@ -467,16 +470,21 @@ function removeItem(productId) {
     updateCartCount();
     updateCartDisplay();
     //updateSidebar();
+
     updateButtonState(productId); // Atualizar o botão após remover
 }
 
 function removeFromCart(productId) {
     let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    let item = carrinho.find(item => item.productId === productId);
     carrinho = carrinho.filter(item => item.productId !== productId);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
     updateCartCount();
     updateButtonState(productId); // Atualizar o botão após remover
+
+    // Mostrar toast de remoção
+    showToast('removeToast', item.productName);
 }
 
 // Função para atualizar o estado do botão
@@ -515,23 +523,32 @@ function updateCartCount() {
     document.getElementById('cart-count').textContent = itemCount;
 }
 
-  // Function to open the sidebar
-  function openSidebar() {
+// Function to open the sidebar
+function openSidebar() {
     document.getElementById('sidebar').classList.add('open');
-  }
+}
 
-  // Function to close the sidebar
-  function closeSidebar() {
+// Function to close the sidebar
+function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
-  }
+}
 
-  function initializeButtons() {
+function initializeButtons() {
     const buttons = document.querySelectorAll('[id^="button-"]');
 
     buttons.forEach(button => {
         const productId = button.id.split('-')[1];
         updateButtonState(productId)
     });
+}
+
+// Função para mostrar toast
+function showToast(toastId, itemName) {
+    var toastElement = document.getElementById(toastId);
+    var itemNameElement = toastId === 'addToast' ? document.getElementById('addItemName') : document.getElementById('removeItemName');
+    itemNameElement.textContent = itemName;
+    var toast = new bootstrap.Toast(toastElement);
+    toast.show();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1267,5 +1267,11 @@ body {
   cursor: pointer;
 }
 
+.toast-container {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1050;
+}
 
 /*# sourceMappingURL=style.css.map */
