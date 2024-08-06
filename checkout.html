@@ -523,14 +523,19 @@
                 console.log(result.text);
                 console.log('Email enviado com sucesso!');
 
-                // Manda pra página específica do pagamento
-                if (redirectUrl) {
+                // Manda pra pág inicial após 3s
+                executeWithDelay(() => {
+                    console.log("Ação executada após 3 segundos");
                     window.location.href = redirectUrl;
-                }
+                }, 3000);
             }, (error) => {
                 console.log(error.text);
                 alert('Falha ao enviar pedido. Tente novamente.');
             });
+        }
+
+        function executeWithDelay(action, delay) {
+            setTimeout(action, delay);
         }
 
         var modal = document.getElementById('privacyModal');
