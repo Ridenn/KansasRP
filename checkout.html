@@ -364,15 +364,13 @@
             let redirectUrl = '';
 
             if (selectedMethod === 'pix') {
+                generatePixCode(totalAmountInput.value, paidAmountInput.value)
                 redirectUrl = 'pix_sucesso.html';
             } else if (selectedMethod === 'boleto') {
                 redirectUrl = 'boleto_sucesso.html';
             } else if (selectedMethod === 'outro') {
                 redirectUrl = 'outra_pagina.html'; // Substitua 'outra_pagina.html' pela página desejada
             }
-
-            // Envio do formulário p/ email do Kansas aqui
-            sendEmail(selectedMethod, totalAmountInput.value, paidAmountInput.value);
         });
 
         function validateFullName(name) {
@@ -446,7 +444,69 @@
             return carrinho.map(item => `Produto: ${item.productName}, Quantidade: ${item.productQuantity}, Preço: R$ ${item.productPrice.toFixed(2)}`).join('  •  ');
         }
 
-        function sendEmail(selectedMethod, totalAmount, paidAmount) {
+        function generatePixCode(totalAmount, paidAmount) {
+            // GERAR PIX PARA TESTE
+            window.$openpix = window.$openpix || []; // priorize o objeto já instanciado
+            window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkX2ZhZTQwYTI5LTk4NGMtNDU1Yi05NTkwLTIzMDI1MDE2YmI1NzpDbGllbnRfU2VjcmV0X3ozRVRPbmNiSFpMakM0MU1HNU4zWUsrQlp2eFRubERoNWZFOUVCdmV1OWM9' }]);
+
+            const unsubscribe = null;
+            const gerarCorrelationIdUnico = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('')
+            const redirectUrl = 'index.html';
+
+            window.$openpix.push([
+              'pix',
+              {
+                value: paidAmount * 100, // em centavos
+                correlationID: gerarCorrelationIdUnico(30),
+                expiresIn: 1800, // 30 minutos em segundos
+              },
+            ]);
+
+            const logEvents = (e) => {
+              if (e.type === 'CHARGE_COMPLETED') {
+                if (unsubscribe !== null) {
+                  unsubscribe();
+                }
+
+                // Envio do formulário p/ email do Kansas aqui
+                sendEmail(totalAmount, paidAmount, redirectUrl);
+                console.log('a cobrança foi paga');
+              }
+
+              if (e.type === 'CHARGE_EXPIRED') {
+                if (unsubscribe !== null) {
+                  unsubscribe();
+                }
+                window.location.href = redirectUrl;
+                console.log('a cobrança foi expirada');
+              }
+
+              if (e.type === 'ON_CLOSE') {
+                if (unsubscribe !== null) {
+                  unsubscribe();
+                }
+                console.log('o modal da cobrança foi fechado');
+              }
+
+              if (e.type === 'ON_ERROR') {
+                if (unsubscribe !== null) {
+                  unsubscribe();
+                }
+                window.location.href = redirectUrl;
+                console.log('ocorreu um erro');
+              }
+            };
+
+            // only register event listener when plugin is already loaded
+            if (!!window.$openpix?.addEventListener) {
+              const unsubscribe = window.$openpix.addEventListener(logEvents);
+
+              // parar de escutar os eventos
+              // unsubscribe();
+            }
+        }
+
+        function sendEmail(totalAmount, paidAmount, redirectUrl) {
             let params = {
               fullName : document.getElementById("fullName").value,
               email : document.getElementById("email").value,
@@ -455,37 +515,18 @@
               paymentMethod : document.getElementById("paymentMethod").value,
               cartItems : document.getElementById("cartItems").value,
               totalAmount : totalAmount,
-              paidAmount : paidAmount,
+              paidAmount : paidAmount.toFixed(2),
               couponValue : document.getElementById("couponValue").value,
             }
 
             emailjs.send("service_o0ecb2m", "template_tdvkhl3", params).then((result) => {
                 console.log(result.text);
-
-                if (selectedMethod === 'pix') {
-                    // GERAR PIX PARA TESTE
-                    window.$openpix = window.$openpix || []; // priorize o objeto já instanciado
-                    window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkX2ZhZTQwYTI5LTk4NGMtNDU1Yi05NTkwLTIzMDI1MDE2YmI1NzpDbGllbnRfU2VjcmV0X3ozRVRPbmNiSFpMakM0MU1HNU4zWUsrQlp2eFRubERoNWZFOUVCdmV1OWM9' }]);
-
-                    const gerarCorrelationIdUnico = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('')
-
-                    window.$openpix.push([
-                      'pix',
-                      {
-                        value: paidAmount * 100, // em centavos
-                        correlationID: gerarCorrelationIdUnico(30),
-                        expiresIn: 1800, // 30 minutos em segundos
-                      },
-                    ]);
-                }
+                console.log('Email enviada com sucesso!');
 
                 // Manda pra página específica do pagamento
-                /*
                 if (redirectUrl) {
                     window.location.href = redirectUrl;
                 }
-                    */
-                //alert('Mensagem enviada com sucesso!');
             }, (error) => {
                 console.log(error.text);
                 alert('Falha ao enviar pedido. Tente novamente.');
