@@ -534,14 +534,16 @@ table tr td{
     left:0;
     right:0;
     bottom:0;
+    color: black;
     background:#212121f0
 }
 .modal .modal-content{
-    background-color:snow;
+    background-color:rgb(255, 255, 255);
     border-radius:10px;
-    margin:25% auto;
-    font-size:1.5em
+    margin:12.5% auto;
+    font-size:16px
 }
+/*
 @media (min-width:1024px){
     .modal .modal-content{
         margin:12.5% auto
@@ -552,6 +554,7 @@ table tr td{
         margin:5% auto
     }
 }
+    */
 .modal .modal-content .modal-header,.modal .modal-content .modal-body,.modal .modal-content .modal-footer{
     padding:15px
 }

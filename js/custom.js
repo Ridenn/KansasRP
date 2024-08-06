@@ -576,6 +576,28 @@ function showCouponToast(toastId, couponName) {
     toast.show();
 }
 
+var modal = document.getElementById('privacyModal');
+var closeButton = document.getElementById('closeModal');
+var privacyLink = document.querySelector('a[href="politica-pagamento.html"]');
+
+// Abrir o modal
+privacyLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Impede o link de seguir o href
+    modal.style.display = 'block';
+});
+
+// Fechar o modal
+closeButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// Fechar o modal se o usuário clicar fora do conteúdo
+window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+    modal.style.display = 'none';
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	initializeButtons();
 	updateCartCount();
