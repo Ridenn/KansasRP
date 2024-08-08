@@ -447,7 +447,12 @@
         function generatePixCode(totalAmount, paidAmount) {
             // GERAR PIX PARA TESTE
             window.$openpix = window.$openpix || []; // priorize o objeto já instanciado
-            window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkX2ZhZTQwYTI5LTk4NGMtNDU1Yi05NTkwLTIzMDI1MDE2YmI1NzpDbGllbnRfU2VjcmV0X3ozRVRPbmNiSFpMakM0MU1HNU4zWUsrQlp2eFRubERoNWZFOUVCdmV1OWM9' }]);
+            
+            // AppID DE TESTES
+            // window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkX2ZhZTQwYTI5LTk4NGMtNDU1Yi05NTkwLTIzMDI1MDE2YmI1NzpDbGllbnRfU2VjcmV0X3ozRVRPbmNiSFpMakM0MU1HNU4zWUsrQlp2eFRubERoNWZFOUVCdmV1OWM9' }]);
+            
+            // AppID DE PRODUÇÃO
+            window.$openpix.push(['config', { appID: 'Q2xpZW50X0lkXzJhYTViYzM5LTIxYmUtNDQxNi05Nzc0LTk4ZmExMmU2MjZmNzpDbGllbnRfU2VjcmV0X003Q1R6cUVhMkNZNmVINjRGa1U3ekpIZWVxb3piMEloa2l4Z1NCaGtJd0E9' }]);
 
             const unsubscribe = null;
             const gerarCorrelationIdUnico = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('')
@@ -458,7 +463,7 @@
               {
                 value: paidAmount * 100, // em centavos
                 correlationID: gerarCorrelationIdUnico(30),
-                expiresIn: 1800, // 30 minutos em segundos
+                expiresIn: 1200, // 30 minutos em segundos
               },
             ]);
 
