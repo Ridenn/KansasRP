@@ -119,6 +119,10 @@ a:focus {
           box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
 }
 
+.header_zindex {
+  z-index: 1000;
+}
+
 body {
   padding-top: 50px; /* Ajuste esse valor conforme necessário para garantir que o conteúdo abaixo não fique coberto pelo cabeçalho */
 }
@@ -257,6 +261,44 @@ body {
 .user_optio_box a {
   margin-left: 15px;
   color: #8019c8;
+}
+
+@media (max-width: 768px) {
+  /*end header section*/
+  /* slider section */
+  .slider_section {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    position: relative;
+    margin-bottom: -80px;
+  }
+
+  .slider_section .detail-box {
+    color: #ffffff;
+    background: rgba(33, 33, 33, 0.041); /* Semitransparente para efeito mais suave */
+    backdrop-filter: blur(10px); /* Aplica o efeito de desfoque */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidade com Safari */
+    padding: 20px; /* Ajusta o padding conforme necessário */
+    border-radius: 10px; /* Bordas arredondadas para um visual mais suave */
+  }
+  
+  .slider_section .detail-box h1 {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  
+  .slider_section .detail-box p {
+    margin: 25px 0;
+    font-size: small;
+  }
 }
 
 /*end header section*/
@@ -427,13 +469,15 @@ body {
           justify-content: flex-end;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-items: stretch;
   overflow: hidden;
 }
 
 .slider_bg_box img {
   height: 90%;
   margin-bottom: 50px;
+  height: auto;
+  object-fit: cover;
 }
 
 .service_section {
@@ -587,6 +631,42 @@ body {
           align-items: center;
 }
 
+@media (max-width: 768px) {
+  .about_section_index .detail-box {
+    text-align: center;
+    padding: 20px;
+  }
+  .about_section_index .detail-box {
+    text-align: center;
+    padding: 20px;
+  }
+  .about_section_index .img_container {
+    margin-top: 680px;
+    display: flex;
+    align-items: center;
+  }
+  .about_section_index .img-box {
+    width: 40%;
+    max-width: 300px; /* ajuste conforme necessário */
+    margin-bottom: 20px;
+  }
+  .slider_bg_box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+  }
+}
 .about_section_index .img_container {
   display: -webkit-box;
   display: -ms-flexbox;
